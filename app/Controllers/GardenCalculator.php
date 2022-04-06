@@ -22,6 +22,8 @@ class GardenCalculator
 
 	public function loadView()
 	{
+		$gardens = $this->garden->fetchAll();
+
 		require 'views/home.php';
 	}
 
@@ -83,7 +85,9 @@ class GardenCalculator
 
 		$measurement = $this->measurementStrategy($inputs['unitForDimensions']);
 
-		$numberB = $this->calculateNumberOfBags($measurement);
+		$this->garden->save();
+
+		$numberofBags = $this->calculateNumberOfBags($measurement);
 
 		header('Content-Type:application/json');
 

@@ -12,25 +12,6 @@
 			padding: 2em;
 			text-align: center;
 		}
-		/*section {*/
-		/*	height: 80vh;*/
-		/*}*/
-
-		/*div {*/
-		/*	margin-top: 1rem;*/
-		/*	margin-bottom: 1rem;*/
-		/*	align-content: center;*/
-		/*}*/
-
-		/*input, select {*/
-		/*	width: 300px;*/
-		/*	height: 40px;*/
-		/*}*/
-
-		/*form {*/
-		/*	align-self:center;*/
-		/*}*/
-
 	</style>
 </head>
 <body>
@@ -76,6 +57,41 @@
 				<button type="submit" class="btn btn-primary">Submit</button>
 			</div>
 		</form>
+	</div>
+</section>
+<section>
+	<div class="container mt-3">
+		<table class="table">
+			<thead>
+			<tr>
+				<th scope="col">Width</th>
+				<th scope="col">Length</th>
+				<th scope="col">Depth</th>
+				<th scope="col">Number of Bags</th>
+				<th scope="col">Cost</th>
+			</tr>
+			</thead>
+			<tbody>
+			<?php if (count ($gardens) > 0) : ?>
+				<?php foreach ($gardens as $garden) : ?>
+					<tr>
+						<td><?= $garden->width ?> (<?= $garden->unit_of_dimensions?>)</td>
+						<td><?= $garden->length ?> (<?= $garden->unit_of_dimensions?>)</td>
+						<td><?= $garden->depth ?> (<?= $garden->unit_of_depth?>)</td>
+						<td><?= $garden->number_of_bags ?></td>
+						<td><?= $garden->cost ?></td>
+					</tr>
+				<?php endforeach; ?>
+				<tr>
+					<td>Total Cost: </td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td><?= array_sum(array_map(fn($garden) => $garden->cost, $gardens)) ?></td>
+				</tr>
+			<?php endif; ?>
+			</tbody>
+		</table>
 	</div>
 </section>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>

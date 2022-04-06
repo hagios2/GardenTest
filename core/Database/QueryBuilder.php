@@ -1,24 +1,26 @@
 <?php
 
-//namespace Core\Database;
+namespace Core\Database;
 
-//use PDO;
+use PDO;
 
 class QueryBuilder
 {
-	protected $pdo;
+	protected PDO $pdo;
 
 	public function __construct(PDO $pdo)
 	{
 		$this->pdo = $pdo;
 	}
 
-	public function select($sql, $parameters)
+	public function select()
 	{
 		try {
+			$sql = "SELECT * FROM gardens ORDER BY id DESC";
+
 			$statement = $this->pdo->prepare($sql);
 
-			$statement->execute($parameters);
+			$statement->execute();
 
 			return $statement->fetchAll(PDO::FETCH_CLASS);
 
@@ -27,9 +29,15 @@ class QueryBuilder
 		}
 	}
 
-	public function insert($sql, $parameters)
+	public function insert($parameters)
 	{
 		try {
+			$sql = sprintf(
+				'INSERT INTO gardens (%s) values (%s)',
+				implode(',', array_keys($parameters)),
+				':'. implode(', :', array_values($parameters))
+			);
+
 			$statement = $this->pdo->prepare($sql);
 
 			$statement->execute($parameters);

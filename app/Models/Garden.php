@@ -2,6 +2,11 @@
 
 namespace  App\Models;
 
+require 'bootstrap.php';
+
+use Core\Database\QueryBuilder;
+use Core\ServiceContainer;
+
 class Garden
 {
 	private float $length;
@@ -10,6 +15,12 @@ class Garden
 	private string $depthUnit;
 	private string $measurementUnit;
 	private int $numberOfBags;
+	private QueryBuilder $queryBuilder;
+
+	public function __construct()
+	{
+		$this->queryBuilder = ServiceContainer::get('database');
+	}
 
 	/**
 	 * @return float
@@ -107,5 +118,15 @@ class Garden
 		$this->numberOfBags = $numberOfBags;
 	}
 
+	public function save()
+	{
+		die(var_dump($this));
+		$this->queryBuilder->insert($this);
+	}
+
+	public function fetchAll()
+	{
+		return $this->queryBuilder->select();
+	}
 
 }

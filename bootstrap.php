@@ -1,17 +1,11 @@
 <?php
 
-//use Core\Database\Connection;
-//use Core\Database\QueryBuilder;
+use Core\Database\Connection;
+use Core\Database\QueryBuilder;
+use Core\ServiceContainer;
 
-$app = [];
+ServiceContainer::bind('config', require 'config.php');
 
-$app['config'] = require 'config.php';
-
-//require 'core/Router.php';
-require 'core/Database/Connection.php';
-require 'core/Database/QueryBuilder.php';
-//require 'core/Request.php';
-
-$app['Database'] = new QueryBuilder(
-	Connection::make($app['config']['database'])
-);
+ServiceContainer::bind('database', new QueryBuilder(
+	Connection::make(ServiceContainer::get('config')['database'])
+));
