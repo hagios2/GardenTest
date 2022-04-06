@@ -23,8 +23,8 @@ class Request
 		return [];
 	}
 
-//	public function input()
-//	{
-//		return $_REQUEST
-//	}
+	public static function input(): array
+	{
+		return $_REQUEST;
+	}
 }

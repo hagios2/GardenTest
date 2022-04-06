@@ -32,7 +32,9 @@ class GardenCalculator
 
 	public function calculate()
 	{
-		$this->setMeasurementUnit();
+		header('Content-Type:application/json');
+		echo json_encode(Request::input());
+//		$this->setMeasurementUnit();
 	}
 
 	public function save()
