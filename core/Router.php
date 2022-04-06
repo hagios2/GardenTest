@@ -1,5 +1,8 @@
 <?php
 
+//use App\GardenCalculator;
+require 'app/GardenCalculator.php';
+
 class Router
 {
 	protected $routes = [
@@ -8,9 +11,9 @@ class Router
 		'POST' => []
 	];
 
-	public function get($uri, $controller)
+	public function get($uri, $controller, $method)
 	{
-		$this->routes['GET'][$uri] = $controller;
+		$this->routes['GET'][$uri] = (new $controller())->$method();
 	}
 
 	public function post($uri, $controller)

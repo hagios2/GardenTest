@@ -1,9 +1,15 @@
 <?php
 
-namespace App;
+//namespace App;
 
 class GardenCalculator
 {
+	public function loadView()
+	{
+
+		require 'views/home.php';
+	}
+
 	public function setMeasurementUnit()
 	{
 

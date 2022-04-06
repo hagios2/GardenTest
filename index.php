@@ -2,7 +2,7 @@
 
 //use Router;
 
-//$query = require 'core/bootstrap.php';
+$query = require 'bootstrap.php';
 
 Router::load('routes.php')
 

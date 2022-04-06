@@ -1,8 +1,8 @@
 <?php
 
-namespace Core\Database;
+//namespace Core\Database;
 
-use PDO;
+//use PDO;
 
 class QueryBuilder
 {
@@ -29,7 +29,6 @@ class QueryBuilder
 
 	public function insert($sql, $parameters)
 	{
-
 		try {
 			$statement = $this->pdo->prepare($sql);
 
