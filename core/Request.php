@@ -2,7 +2,7 @@
 
 class Request
 {
-	public static function url()
+	public static function url(): string
 	{
 		return trim(
 			parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');

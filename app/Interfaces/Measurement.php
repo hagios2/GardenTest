@@ -4,5 +4,5 @@ namespace App\Interfaces;
 
 interface Measurement
 {
-	public function measurementUnit();
+	public function measurementUnit($dimensionValue);
 }

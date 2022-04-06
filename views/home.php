@@ -56,9 +56,6 @@
 						<option value="yards">Yards</option>
 					</select>
 				</div>
-<!--				<div class="col-md-1 mt-4">-->
-<!--					<button type="submit" class="btn btn-primary">Submit</button>-->
-<!--				</div>-->
 			</div>
 			<div class="row mt-3">
 				<div class="col-md-3">
@@ -73,9 +70,6 @@
 						<option value="centimetres">Centimetres</option>
 					</select>
 				</div>
-<!--				<div class="col-md-1 mt-4">-->
-<!--					<button type="submit" class="btn btn-primary">Submit</button>-->
-<!--				</div>-->
 			</div>
 
 			<div class="col-md-1 mt-4">
