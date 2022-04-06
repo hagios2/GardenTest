@@ -1,5 +1,7 @@
 <?php
 
+namespace  App\Models;
+
 class Garden
 {
 	private float $length;

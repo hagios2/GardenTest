@@ -51,9 +51,9 @@
 					<label for="exampleInputPassword1" class="form-label">Unit For Dimensions</label>
 					<select class="form-select" name="unitForDimensions" aria-label="Default select example">
 						<option >Select dimension</option>
-						<option value="metres">Metres</option>
-						<option value="feet">Feet</option>
-						<option value="yards">Yards</option>
+						<option value="Metres">Metres</option>
+						<option value="Feet">Feet</option>
+						<option value="Yards">Yards</option>
 					</select>
 				</div>
 			</div>
@@ -66,8 +66,8 @@
 					<label for="exampleInputPassword1" class="form-label">Unit For Depth</label>
 					<select class="form-select" name="unitForDepth" aria-label="Default select example">
 						<option >Select dimension</option>
-						<option value="inches">Inches</option>
-						<option value="centimetres">Centimetres</option>
+						<option value="Inches">Inches</option>
+						<option value="Centimetres">Centimetres</option>
 					</select>
 				</div>
 			</div>

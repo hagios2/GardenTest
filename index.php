@@ -1,8 +1,10 @@
 <?php
 
-//use Router;
+use Core\Request;
+use Core\Router;
 
-$query = require 'bootstrap.php';
+require 'vendor/autoload.php';
+require 'bootstrap.php';
 
 Router::load('routes.php')
 

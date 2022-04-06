@@ -1,7 +1,6 @@
 <?php
 
-//use App\GardenCalculator;
-require 'app/GardenCalculator.php';
+namespace Core;
 
 class Router
 {
@@ -32,13 +31,13 @@ class Router
 	}
 
 	/**
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	public function direct($url, $requestType)
 	{
 		if(!array_key_exists($url, $this->routes[$requestType]))
 		{
-			Throw new Exception('Route not defined for this URI');
+			Throw new \Exception('Route not defined for this URI');
 		}
 
 		$args = explode('@', $this->routes[$requestType][$url]);
@@ -48,13 +47,17 @@ class Router
 
 	public function callAction($controller, $action)
 	{
+		$namespacedController = "App\\Controllers\\{$controller}";
+
+		$controller = new $namespacedController;
+
 		if (!method_exists($controller, $action)) {
-			throw new Exception(
+			Throw new \Exception(
 				"{$controller} does not respond to the {$action} action."
 			);
 		}
 
-		return (new $controller())->$action();
+		return $controller->$action();
 	}
 }
 

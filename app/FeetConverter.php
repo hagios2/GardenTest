@@ -1,5 +1,7 @@
 <?php
 
+namespace  App;
+
 use App\Interfaces\Measurement as Measurement;
 
 class FeetConverter implements Measurement
