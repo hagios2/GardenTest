@@ -1,10 +1,9 @@
 <?php
 
-
 //use App\GardenCalculator;
 //echo GardenCalculator::class;
+$router->post('calculate', GardenCalculator::class.'@calculate');
 
-$router->get('', GardenCalculator::class, 'loadView');
-$router->post('', GardenCalculator::class);
+$router->get('', GardenCalculator::class.'@loadView');
 
 

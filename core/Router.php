@@ -5,15 +5,16 @@ require 'app/GardenCalculator.php';
 
 class Router
 {
-	protected $routes = [
+	public $routes = [
+
 		'GET' => [],
 
 		'POST' => []
 	];
 
-	public function get($uri, $controller, $method)
+	public function get($uri, $controller)
 	{
-		$this->routes['GET'][$uri] = (new $controller())->$method();
+		$this->routes['GET'][$uri] = $controller;
 	}
 
 	public function post($uri, $controller)
@@ -21,7 +22,7 @@ class Router
 		$this->routes['POST'][$uri] = $controller;
 	}
 
-	public static function load($file)
+	public static function load($file): Router
 	{
 		$router = new static;
 
@@ -35,12 +36,25 @@ class Router
 	 */
 	public function direct($url, $requestType)
 	{
-		if(array_key_exists($url, $this->routes[$requestType]))
+		if(!array_key_exists($url, $this->routes[$requestType]))
 		{
-			return $this->routes[$requestType][$url];
+			Throw new Exception('Route not defined for this URI');
 		}
 
-		Throw new Exception('Route not defined for this URI');
+		$args = explode('@', $this->routes[$requestType][$url]);
+
+		return $this->callAction(...$args);
+	}
+
+	public function callAction($controller, $action)
+	{
+		if (!method_exists($controller, $action)) {
+			throw new Exception(
+				"{$controller} does not respond to the {$action} action."
+			);
+		}
+
+		return (new $controller())->$action();
 	}
 }
 

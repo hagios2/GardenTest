@@ -6,8 +6,8 @@ class GardenCalculator
 {
 	public function loadView()
 	{
-
 		require 'views/home.php';
+
 	}
 
 	public function setMeasurementUnit()
@@ -28,6 +28,11 @@ class GardenCalculator
 	public function calculateNumberOfBags()
 	{
 
+	}
+
+	public function calculate()
+	{
+		$this->setMeasurementUnit();
 	}
 
 	public function save()

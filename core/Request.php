@@ -22,4 +22,9 @@ class Request
 
 		return [];
 	}
+
+//	public function input()
+//	{
+//		return $_REQUEST
+//	}
 }
