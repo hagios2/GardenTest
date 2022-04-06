@@ -35,7 +35,7 @@ class QueryBuilder
 			$sql = sprintf(
 				'INSERT INTO gardens (%s) values (%s)',
 				implode(',', array_keys($parameters)),
-				':'. implode(', :', array_values($parameters))
+				':'. implode(', :', array_keys($parameters))
 			);
 
 			$statement = $this->pdo->prepare($sql);

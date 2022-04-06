@@ -46,7 +46,7 @@ class GardenCalculator
 		$this->garden->setWidth($width);
 	}
 
-	public function calculateNumberOfBags(Measurement $measurement): int
+	public function calculateNumberOfBags(Measurement $measurement)
 	{
 		$lengthInMetres = $measurement->measurementUnit($this->garden->getLength());
 
@@ -54,7 +54,13 @@ class GardenCalculator
 
 		$area = $lengthInMetres * $widthInMetres;
 
-		return round(($area * 0.025) * 1.4);
+		$numberOfBags = round(($area * 0.025) * 1.4);
+
+		$cost = $numberOfBags * 72;
+
+		$this->garden->setNumberOfBags($numberOfBags);
+
+		$this->garden->setCost($cost);
 	}
 
 	public function measurementStrategy($unit): Measurement
@@ -85,17 +91,15 @@ class GardenCalculator
 
 		$measurement = $this->measurementStrategy($inputs['unitForDimensions']);
 
-		$this->garden->save();
+		$this->calculateNumberOfBags($measurement);
 
-		$numberofBags = $this->calculateNumberOfBags($measurement);
+		$this->save();
 
-		header('Content-Type:application/json');
-
-		echo json_encode(['n' => $numberB]);
+		header ('Location: /');
 	}
 
 	public function save()
 	{
-
+		$this->garden->save();
 	}
 }

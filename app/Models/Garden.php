@@ -15,6 +15,7 @@ class Garden
 	private string $depthUnit;
 	private string $measurementUnit;
 	private int $numberOfBags;
+	private float $cost;
 	private QueryBuilder $queryBuilder;
 
 	public function __construct()
@@ -120,13 +121,38 @@ class Garden
 
 	public function save()
 	{
-		die(var_dump($this));
-		$this->queryBuilder->insert($this);
+		$data = [
+			'length' => $this->length,
+			'width' => $this->width,
+			'depth' => $this->depth,
+			'number_of_bags' => $this->numberOfBags,
+			'cost' => $this->cost,
+			'unit_of_depth' => $this->depthUnit,
+			'unit_of_dimensions' => $this->measurementUnit
+		];
+
+		$this->queryBuilder->insert($data);
 	}
 
 	public function fetchAll()
 	{
 		return $this->queryBuilder->select();
+	}
+
+	/**
+	 * @return float
+	 */
+	public function getCost(): float
+	{
+		return $this->cost;
+	}
+
+	/**
+	 * @param float $cost
+	 */
+	public function setCost(float $cost): void
+	{
+		$this->cost = $cost;
 	}
 
 }
