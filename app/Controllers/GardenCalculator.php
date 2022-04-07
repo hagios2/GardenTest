@@ -53,9 +53,13 @@ class GardenCalculator
 
 	public function calculateNumberOfBags(Measurement $measurement)
 	{
-		$lengthInMetres = $measurement->measurementUnit($this->garden->getLength());
+		$lengthInMetres = $measurement->measurementUnit(
+			$this->garden->getLength()
+		);
 
-		$widthInMetres = $measurement->measurementUnit($this->garden->getWidth());
+		$widthInMetres = $measurement->measurementUnit(
+			$this->garden->getWidth()
+		);
 
 		$area = $lengthInMetres * $widthInMetres;
 
@@ -92,9 +96,15 @@ class GardenCalculator
 
 		$this->setDepthMeasurementUnit($inputs['unitForDepth']);
 
-		$this->setDimensions($inputs['width'], $inputs['length'], $inputs['depth']);
+		$this->setDimensions(
+			$inputs['width'],
+			$inputs['length'],
+			$inputs['depth']
+		);
 
-		$measurement = $this->measurementStrategy($inputs['unitForDimensions']);
+		$measurement = $this->measurementStrategy(
+			$inputs['unitForDimensions']
+		);
 
 		$this->calculateNumberOfBags($measurement);
 
@@ -102,7 +112,10 @@ class GardenCalculator
 
 		header('Content-Type:application/json');
 
-		echo json_encode(['message' => 'success', 'garden' => $garden]);
+		echo json_encode([
+			'message' => 'success',
+			'garden' => $garden
+		]);
 	}
 
 	public function save(): array

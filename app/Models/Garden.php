@@ -2,8 +2,6 @@
 
 namespace  App\Models;
 
-require 'bootstrap.php';
-
 use Core\Database\QueryBuilder;
 use Core\ServiceContainer;
 
@@ -177,5 +175,4 @@ class Garden
 	{
 		$this->cost = $cost;
 	}
-
 }

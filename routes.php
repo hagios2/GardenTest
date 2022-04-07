@@ -1,6 +1,5 @@
 <?php
 
-
 use App\Controllers\GardenCalculator;
 
 $router->post('calculate', GardenCalculator::class.'@calculate');
