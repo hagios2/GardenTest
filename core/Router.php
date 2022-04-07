@@ -4,58 +4,56 @@ namespace Core;
 
 class Router
 {
-	public array $routes = [
+    public array $routes = [
 
-		'GET' => [],
+        'GET' => [],
 
-		'POST' => []
-	];
+        'POST' => []
+    ];
 
-	public function get($uri, $controller)
-	{
-		$this->routes['GET'][$uri] = $controller;
-	}
+    public function get($uri, $controller)
+    {
+        $this->routes['GET'][$uri] = $controller;
+    }
 
-	public function post($uri, $controller)
-	{
-		$this->routes['POST'][$uri] = $controller;
-	}
+    public function post($uri, $controller)
+    {
+        $this->routes['POST'][$uri] = $controller;
+    }
 
-	public static function load($file): Router
-	{
-		$router = new static;
+    public static function load($file): Router
+    {
+        $router = new static();
 
-		require $file;
+        require $file;
 
-		return $router;
-	}
+        return $router;
+    }
 
-	/**
-	 * @throws \Exception
-	 */
-	public function direct($url, $requestType)
-	{
-		if(!array_key_exists($url, $this->routes[$requestType]))
-		{
-			Throw new \Exception('Route not defined for this URI');
-		}
+    /**
+     * @throws \Exception
+     */
+    public function direct($url, $requestType)
+    {
+        if (!array_key_exists($url, $this->routes[$requestType])) {
+            throw new \Exception('Route not defined for this URI');
+        }
 
-		$args = explode('@', $this->routes[$requestType][$url]);
+        $args = explode('@', $this->routes[$requestType][$url]);
 
-		return $this->callAction(...$args);
-	}
+        return $this->callAction(...$args);
+    }
 
-	public function callAction($controller, $action)
-	{
-		$controller = new $controller;
+    public function callAction($controller, $action)
+    {
+        $controller = new $controller();
 
-		if (!method_exists($controller, $action)) {
-			Throw new \Exception(
-				"{$controller} does not respond to the {$action} action."
-			);
-		}
+        if (!method_exists($controller, $action)) {
+            throw new \Exception(
+                "{$controller} does not respond to the {$action} action."
+            );
+        }
 
-		return $controller->$action();
-	}
+        return $controller->$action();
+    }
 }
-

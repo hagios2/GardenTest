@@ -1,2 +1,5 @@
 vendor
 config.php
+.idea
+.php-cs-fixer.cache
+node_modules

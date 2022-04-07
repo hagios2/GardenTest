@@ -6,62 +6,59 @@ use PDO;
 
 class QueryBuilder
 {
-	protected PDO $pdo;
+    protected PDO $pdo;
 
-	public function __construct(PDO $pdo)
-	{
-		$this->pdo = $pdo;
-	}
+    public function __construct(PDO $pdo)
+    {
+        $this->pdo = $pdo;
+    }
 
-	public function selectAll()
-	{
-		try {
-			$sql = "SELECT * FROM gardens ORDER BY id DESC";
+    public function selectAll()
+    {
+        try {
+            $sql = "SELECT * FROM gardens ORDER BY id DESC";
 
-			$statement = $this->pdo->prepare($sql);
+            $statement = $this->pdo->prepare($sql);
 
-			$statement->execute();
+            $statement->execute();
 
-			return $statement->fetchAll(PDO::FETCH_CLASS);
+            return $statement->fetchAll(PDO::FETCH_CLASS);
+        } catch (\Exception $e) {
+            die($e->getMessage());
+        }
+    }
 
-		} catch (\Exception $e) {
-			die($e->getMessage());
-		}
-	}
+    public function selectOne()
+    {
+        try {
+            $sql = "SELECT * FROM gardens ORDER BY id DESC LIMIT 1";
 
-	public function selectOne()
-	{
+            $statement = $this->pdo->prepare($sql);
 
-		try {
-			$sql = "SELECT * FROM gardens ORDER BY id DESC LIMIT 1";
+            $statement->execute();
 
-			$statement = $this->pdo->prepare($sql);
+            return $statement->fetchAll(PDO::FETCH_CLASS)[0];
+        } catch (\Exception $e) {
+            die($e->getMessage());
+        }
+    }
 
-			$statement->execute();
+    public function insert($parameters)
+    {
+        try {
+            $sql = sprintf(
+                'INSERT INTO gardens (%s) values (%s)',
+                implode(',', array_keys($parameters)),
+                ':'. implode(', :', array_keys($parameters))
+            );
 
-			return $statement->fetchAll(PDO::FETCH_CLASS)[0];
+            $statement = $this->pdo->prepare($sql);
 
-		} catch (\Exception $e) {
-			die($e->getMessage());
-		}
-	}
+            $statement->execute($parameters);
 
-	public function insert($parameters)
-	{
-		try {
-			$sql = sprintf(
-				'INSERT INTO gardens (%s) values (%s)',
-				implode(',', array_keys($parameters)),
-				':'. implode(', :', array_keys($parameters))
-			);
-
-			$statement = $this->pdo->prepare($sql);
-
-			$statement->execute($parameters);
-
-			return $this->pdo->lastInsertId();
-		} catch (\Exception $e) {
-			die($e->getMessage());
-		}
-	}
+            return $this->pdo->lastInsertId();
+        } catch (\Exception $e) {
+            die($e->getMessage());
+        }
+    }
 }
