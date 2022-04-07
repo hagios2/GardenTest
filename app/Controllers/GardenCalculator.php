@@ -13,7 +13,7 @@ use Core\Request;
 
 class GardenCalculator
 {
-	protected Garden $garden;
+	public Garden $garden;
 
 	public function __construct()
 	{
