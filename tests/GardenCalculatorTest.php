@@ -74,17 +74,17 @@ class GardenCalculatorTest extends TestCase
 			$this->randomDepth
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$this->randomDepth,
 			$this->gardenCalculator->garden->getDepth()
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$this->randomLength,
 			$this->gardenCalculator->garden->getLength()
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$this->randomWidth,
 			$this->gardenCalculator->garden->getWidth()
 		);
@@ -98,17 +98,17 @@ class GardenCalculatorTest extends TestCase
 			$this->randomDepth
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$this->randomDepth,
 			$this->gardenCalculator->garden->getDepth()
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$this->randomLength,
 			$this->gardenCalculator->garden->getLength()
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$this->randomWidth,
 			$this->gardenCalculator->garden->getWidth()
 		);
@@ -138,16 +138,16 @@ class GardenCalculatorTest extends TestCase
 
 		$area = $lengthInMetres * $widthInMetres;
 
-		$numberOfBags = round(($area * 0.025) * 1.4);
+		$numberOfBags = (int) round(($area * 0.025) * 1.4);
 
-		$costOfBags = $numberOfBags * 72;
+		$costOfBags = (float) $numberOfBags * 72;
 
-		$this->assertEquals(
+		$this->assertSame(
 			$numberOfBags,
 			$this->gardenCalculator->garden->getNumberOfBags()
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$costOfBags,
 			$this->gardenCalculator->garden->getCost()
 		);
@@ -202,9 +202,9 @@ class GardenCalculatorTest extends TestCase
 
 		$area = $lengthInMetres * $widthInMetres;
 
-		$numberOfBags = round(($area * 0.025) * 1.4);
+		$numberOfBags = (int) round(($area * 0.025) * 1.4);
 
-		$costOfBags = $numberOfBags * 72;
+		$costOfBags = (float) $numberOfBags * 72;
 
 		$this->assertSame($this->randomWidth, $gardenObject->width);
 		$this->assertSame($this->randomDepth, $gardenObject->depth);
@@ -213,7 +213,5 @@ class GardenCalculatorTest extends TestCase
 		$this->assertSame($depthUnit, $gardenObject->unit_of_depth);
 		$this->assertSame($numberOfBags, $gardenObject->number_of_bags);
 		$this->assertSame($costOfBags, $gardenObject->cost);
-
-		$this->pdo->rollback();
 	}
 }

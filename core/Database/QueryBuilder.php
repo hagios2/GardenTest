@@ -18,8 +18,6 @@ class QueryBuilder
 		try {
 			$sql = "SELECT * FROM gardens ORDER BY id DESC";
 
-			$this->pdo->setAttribute(PDO::ATTR_STRINGIFY_FETCHES, false);
-
 			$statement = $this->pdo->prepare($sql);
 
 			$statement->execute();
@@ -40,8 +38,6 @@ class QueryBuilder
 			$statement = $this->pdo->prepare($sql);
 
 			$statement->execute();
-
-			$this->pdo->setAttribute(PDO::ATTR_STRINGIFY_FETCHES, true);
 
 			return $statement->fetchAll(PDO::FETCH_CLASS)[0];
 

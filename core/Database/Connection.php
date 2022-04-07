@@ -16,6 +16,8 @@ class Connection extends PDO
 				$config['password'],
 				$config['options']
 			);
+
+			$pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 			$pdo->setAttribute(PDO::ATTR_STRINGIFY_FETCHES, false);
 
 			return $pdo;
