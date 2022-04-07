@@ -68,7 +68,7 @@
 				<th scope="col">Length</th>
 				<th scope="col">Depth</th>
 				<th scope="col">Number of Bags</th>
-				<th scope="col">Cost</th>
+				<th scope="col">Cost (£)</th>
 			</tr>
 			</thead>
 			<tbody id="tbody"></tbody>
@@ -116,7 +116,7 @@
 							<td></td>
 							<td></td>
 							<td></td>
-							<td>${totalCost}</td>
+							<td>£ ${totalCost} (inc VAT)</td>
 						</tr>`
 
 			$('#tbody').html(dom)
