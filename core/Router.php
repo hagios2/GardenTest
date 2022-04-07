@@ -47,9 +47,9 @@ class Router
 
 	public function callAction($controller, $action)
 	{
-		$namespacedController = "App\\Controllers\\{$controller}";
-
-		$controller = new $namespacedController;
+//		$namespacedController = "App\\Controllers\\{$controller}";
+//
+		$controller = new $controller;
 
 		if (!method_exists($controller, $action)) {
 			Throw new \Exception(

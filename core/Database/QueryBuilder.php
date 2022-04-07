@@ -41,6 +41,8 @@ class QueryBuilder
 			$statement = $this->pdo->prepare($sql);
 
 			$statement->execute($parameters);
+
+			return $this->pdo->lastInsertId();
 		} catch (\Exception $e) {
 			die($e->getMessage());
 		}

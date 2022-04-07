@@ -22,9 +22,14 @@ class GardenCalculator
 
 	public function loadView()
 	{
-		$gardens = $this->garden->fetchAll();
-
 		require 'views/home.php';
+	}
+
+	public function gardens()
+	{
+		header('Content-Type:application/json');
+
+		echo json_encode(['gardens' => $this->garden->fetchAll()]);
 	}
 
 	public function setMeasurementUnit($unit)
