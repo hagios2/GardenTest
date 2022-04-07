@@ -71,26 +71,7 @@
 				<th scope="col">Cost</th>
 			</tr>
 			</thead>
-			<tbody id="tbody">
-<!--			--><?php //if (count ($gardens) > 0) : ?>
-<!--				--><?php //foreach ($gardens as $garden) : ?>
-<!--					<tr>-->
-<!--						<td>--><?//= $garden->width ?><!-- (--><?//= $garden->unit_of_dimensions?><!--)</td>-->
-<!--						<td>--><?//= $garden->length ?><!-- (--><?//= $garden->unit_of_dimensions?><!--)</td>-->
-<!--						<td>--><?//= $garden->depth ?><!-- (--><?//= $garden->unit_of_depth?><!--)</td>-->
-<!--						<td>--><?//= $garden->number_of_bags ?><!--</td>-->
-<!--						<td>--><?//= $garden->cost ?><!--</td>-->
-<!--					</tr>-->
-<!--				--><?php //endforeach; ?>
-<!--				<tr>-->
-<!--					<td>Total Cost: </td>-->
-<!--					<td></td>-->
-<!--					<td></td>-->
-<!--					<td></td>-->
-<!--					<td>--><?//= array_sum(array_map(fn($garden) => $garden->cost, $gardens)) ?><!--</td>-->
-<!--				</tr>-->
-<!--			--><?php //endif; ?>
-			</tbody>
+			<tbody id="tbody"></tbody>
 		</table>
 	</div>
 </section>
