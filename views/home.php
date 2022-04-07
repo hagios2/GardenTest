@@ -18,6 +18,8 @@
 <header><h1>No. Of Bags Calculator</h1></header>
 <section>
 	<div class="container mt-3">
+		<div class="alert-info alert text-center" id="resp" style="display: none"></div>
+		<div class="alert-danger alert text-center" id="err" style="display: none"></div>
 		<form action="/calculate" method="post">
 			<div class="row">
 				<div class="col-md-3">
@@ -31,7 +33,7 @@
 				<div class="col-md-3">
 					<label for="exampleInputPassword1" class="form-label">Unit For Dimensions</label>
 					<select class="form-select" id="unitForDimensions" required name="unitForDimensions" aria-label="Default select example">
-						<option >Select dimension</option>
+						<option value="">Select dimension</option>
 						<option value="Metres">Metres</option>
 						<option value="Feet">Feet</option>
 						<option value="Yards">Yards</option>
@@ -46,15 +48,22 @@
 				<div class="col-md-3">
 					<label for="exampleInputPassword1" class="form-label">Unit For Depth</label>
 					<select class="form-select" id="unitForDepth" required name="unitForDepth" aria-label="Default select example">
-						<option >Select dimension</option>
+						<option value="">Select dimension</option>
 						<option value="Inches">Inches</option>
 						<option value="Centimetres">Centimetres</option>
 					</select>
 				</div>
 			</div>
 
-			<div class="col-md-1 mt-4">
-				<button type="submit" id="submit" class="btn btn-primary">Submit</button>
+			<div class="col-md-12 mt-4">
+				<div class="row">
+					<div class="col-md-1 mr-5" >
+						<input type="submit" id="submit" value="Submit" class="btn btn-primary">
+					</div>
+					<div class="col-md-1 ml-3">
+						<input type="submit" id="addToBasket" value="Add to basket" class="btn btn-info">
+					</div>
+				</div>
 			</div>
 		</form>
 	</div>
@@ -83,7 +92,6 @@
 		$.ajax({
 			url: '/gardens'
 		}).done((data) => {
-			console.log(data)
 			if(!jQuery.isEmptyObject(data)) {
 				gardens = data.gardens;
 
@@ -93,8 +101,14 @@
 
 		$('#submit').click(function (e) {
 			e.preventDefault()
-			submitForm()
+			submitForm(false)
 		})
+		$('#addToBasket').click(function (e) {
+			e.preventDefault()
+			submitForm(true)
+		})
+
+
 
 		const displayGardens = () => {
 			let dom =``
@@ -122,41 +136,85 @@
 			$('#tbody').html(dom)
 		}
 
-		const submitForm = () => {
+		const submitForm = async (addToBasket) => {
 			const length = $('#length').val()
 			const width = $('#width').val()
 			const depth = $('#depth').val()
 			const unitForDepth = $('#unitForDepth').val()
 			const unitForDimensions = $('#unitForDimensions').val()
 
-			const data = {
-				length,
-				width,
-				depth,
-				unitForDimensions,
-				unitForDepth
+			if (length === '') {
+				displayError('Length is required')
 			}
 
-			$.ajax({
-				url: '/calculate',
-				method: 'POST',
-				data,
-				data_type: 'json',
-			}).done((response) => {
-				if (response.message === 'success') {
-					gardens.unshift(response.garden)
-					$('#length').val('')
-					$('#width').val('')
-					$('#depth').val('')
-					$('#unitForDepth').val('')
-					$('#unitForDimensions').val('')
+			if (width === '') {
+				displayError('Width is required')
+			}
 
-					displayGardens()
+			if (depth === '') {
+				displayError('Depth is required')
+			}
+
+			if (unitForDepth === '') {
+				displayError('Unit For Depth is required')
+			}
+
+			if (unitForDimensions === '') {
+				displayError('Unit For Dimension is required')
+			}
+
+			if (length && width && depth && unitForDepth && unitForDimensions) {
+				const data = {
+					length,
+					width,
+					depth,
+					unitForDimensions,
+					unitForDepth,
+					addToBasket
 				}
-			})
+
+				$.ajax({
+					url: '/calculate',
+					method: 'POST',
+					data,
+					data_type: 'json',
+				}).done((response) => {
+					if (response.message === 'success') {
+						console.log('i got herere')
+						if (addToBasket) {
+							gardens.unshift(response.garden)
+							$('#length').val('')
+							$('#width').val('')
+							$('#depth').val('')
+							$('#unitForDepth').val('')
+							$('#unitForDimensions').val('')
+							$('#resp').hide()
+							$('#err').hide()
+							displayGardens()
+						} else {
+							console.log('inside the logger ')
+							let dom = `<h3>Number of Bags= ${response.garden.number_of_bags}</h3>
+									<h3>Cost of Bags= £ ${response.garden.cost}</h3>`
+
+							$('#resp').html(dom)
+							$('#resp').show()
+						}
+					} else {
+						displayError('Whoops! Something Went Wrong')
+					}
+				})
+			} else {
+				displayError('Please Enter Valid Inputs')
+			}
+		}
+
+		const displayError = (message) => {
+			$('#resp').hide()
+			$('#err').html(`<p>${message}</p>`)
+			$('#err').show()
+			$('#err').fadeOut(5000)
 		}
 	})
-
 </script>
 </body>
 </html>

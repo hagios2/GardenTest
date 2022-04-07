@@ -88,7 +88,7 @@ class GardenCalculator
         }
     }
 
-    public function calculate()
+    public function calculateOrAddToBasket()
     {
         try {
             $inputs = Request::input();
@@ -109,7 +109,14 @@ class GardenCalculator
 
             $this->calculateNumberOfBags($measurement);
 
-            $garden = $this->save();
+            if ($inputs['addToBasket'] === 'true') {
+                $garden = $this->save();
+            } else {
+                $garden = [
+                    'number_of_bags' => $this->garden->getNumberOfBags(),
+                    'cost' => $this->garden->getCost()
+                ];
+            }
 
             header('Content-Type:application/json');
 

@@ -2,7 +2,7 @@
 
 use App\Controllers\GardenCalculator;
 
-$router->post('calculate', GardenCalculator::class.'@calculate');
+$router->post('calculate', GardenCalculator::class.'@calculateOrAddToBasket');
 
 $router->get('', GardenCalculator::class.'@loadView');
 
