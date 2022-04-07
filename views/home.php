@@ -144,8 +144,12 @@
 				data_type: 'json',
 			}).done((response) => {
 				if (response.message === 'success') {
-					console.log(response)
 					gardens.unshift(response.garden)
+					$('#length').val('')
+					$('#width').val('')
+					$('#depth').val('')
+					$('#unitForDepth').val('')
+					$('#unitForDimensions').val('')
 
 					displayGardens()
 				}

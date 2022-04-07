@@ -8,6 +8,6 @@ class MetresConverter implements Measurement
 {
 	public function measurementUnit($dimensionValue): float
 	{
-		return $dimensionValue;
+		return round($dimensionValue, 4);
 	}
 }

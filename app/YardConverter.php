@@ -10,6 +10,6 @@ class YardConverter implements Measurement
 	{
 		# 1 metre = 1.09361
 
-		return $dimensionValue / 1.09361;
+		return round($dimensionValue / 1.09361, 4);
 	}
 }

@@ -10,6 +10,6 @@ class InchesConverter implements Measurement
 	{
 		# 1 metre = 39.3701 in
 
-		return $dimensionValue / 39.3701;
+		return round($dimensionValue / 39.3701, 4);
 	}
 }

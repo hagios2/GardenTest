@@ -10,6 +10,6 @@ class CentimeterConverter implements Measurement
 	{
 		# 1 metre = 100 cm
 
-		return $dimensionValue / 100;
+		return round($dimensionValue / 100, 4);
 	}
 }

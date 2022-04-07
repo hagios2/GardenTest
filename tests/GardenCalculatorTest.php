@@ -3,25 +3,31 @@
 namespace Test;
 
 use App\Controllers\GardenCalculator;
-
+use App\Models\Garden;
+use Faker\Factory;
+use Faker\Generator as Generator;
 use GuzzleHttp\Client;
 use PHPUnit\Framework\TestCase;
+//use PHPUnit\DbUnit\TestCaseTrait;
 
 class GardenCalculatorTest extends TestCase
 {
+//	use TestCaseTrait;
 	private GardenCalculator $gardenCalculator;
 	private array $units;
 	private float $randomLength;
 	private float $randomWidth;
 	private float $randomDepth;
+	private Generator $faker;
 
 	protected function setUp(): void
 	{
 		$this->gardenCalculator = new GardenCalculator;
 		$this->units = ['Centimetres', 'Inches', 'Yards', 'Feet', 'Metres'];
-		$this->randomLength = mt_rand();
-		$this->randomWidth = mt_rand();
-		$this->randomDepth = mt_rand();
+		$this->faker = Factory::create();
+		$this->randomLength = $this->faker->randomFloat(2, 10, 100);
+		$this->randomWidth = $this->faker->randomFloat(2, 10, 100);
+		$this->randomDepth = $this->faker->randomFloat(2, 10, 100);
 	}
 
 	public function test_measurement_unit_gets_set()
@@ -99,12 +105,48 @@ class GardenCalculatorTest extends TestCase
 
 		$this->gardenCalculator->setMeasurementUnit($randomUnit);
 
-		$this->assertSame($randomUnit, $this->gardenCalculator->garden->getMeasurementUnit());
-
-		$this->gardenCalculator->calculateNumberOfBags(
-			$this->gardenCalculator->measurementStrategy($randomUnit)
+		$this->assertSame(
+			$randomUnit,
+			$this->gardenCalculator->garden->getMeasurementUnit()
 		);
 
+		$measurement = $this->gardenCalculator->measurementStrategy($randomUnit);
+
+		$this->gardenCalculator->calculateNumberOfBags(
+			$measurement
+		);
+
+		$lengthInMetres = $measurement->measurementUnit(
+			$this->randomLength
+		);
+
+		$widthInMetres = $measurement->measurementUnit(
+			$this->randomWidth
+		);
+
+		$area = $lengthInMetres * $widthInMetres;
+
+		$numberOfBags = round(($area * 0.025) * 1.4);
+
+		$costOfBags = $numberOfBags * 72;
+
+		$this->assertEquals(
+			$numberOfBags,
+			$this->gardenCalculator->garden->getNumberOfBags()
+		);
+
+		$this->assertEquals(
+			$costOfBags,
+			$this->gardenCalculator->garden->getCost()
+		);
+	}
+
+	public function test_object_gets_saved_in_the_db()
+	{
+		$garden = $this->createMock(Garden::class);
+
+		var_dump($garden->save());
+		exit;
 
 	}
 }

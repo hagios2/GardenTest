@@ -65,11 +65,11 @@ class GardenCalculator
 
 		$numberOfBags = round(($area * 0.025) * 1.4);
 
-		$cost = $numberOfBags * 72;
+		$costOfBags = $numberOfBags * 72;
 
 		$this->garden->setNumberOfBags($numberOfBags);
 
-		$this->garden->setCost($cost);
+		$this->garden->setCost($costOfBags);
 	}
 
 	public function measurementStrategy($unit): Measurement

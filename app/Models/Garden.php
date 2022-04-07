@@ -2,6 +2,8 @@
 
 namespace  App\Models;
 
+require  'bootstrap.php';
+
 use Core\Database\QueryBuilder;
 use Core\ServiceContainer;
 
@@ -33,6 +35,9 @@ class Garden
 		$this->id = $id;
 	}
 
+	/**
+	 * @throws \Exception
+	 */
 	public function __construct()
 	{
 		$this->queryBuilder = ServiceContainer::get('database');
