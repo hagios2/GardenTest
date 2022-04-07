@@ -155,8 +155,6 @@ class GardenCalculatorTest extends TestCase
 
     public function test_object_gets_saved_in_the_db()
     {
-        $this->pdo->beginTransaction();
-
         $measurementUnit = $this->units[array_rand($this->units)];
         $depthUnit = $this->units[array_rand($this->units)];
 
@@ -165,7 +163,8 @@ class GardenCalculatorTest extends TestCase
             'length' => $this->randomLength,
             'depth' => $this->randomDepth,
             'unitForDimensions' => $measurementUnit,
-            'unitForDepth' => $depthUnit
+            'unitForDepth' => $depthUnit,
+			'addToBasket' => 'true'
         ];
         $headers = [
             'Accept' => 'application/json'
@@ -181,7 +180,6 @@ class GardenCalculatorTest extends TestCase
 
         $this->assertArrayHasKey('width', $data['garden']);
         $this->assertArrayHasKey('length', $data['garden']);
-        $this->assertArrayHasKey('depth', $data['garden']);
         $this->assertArrayHasKey('depth', $data['garden']);
         $this->assertArrayHasKey('unit_of_dimensions', $data['garden']);
         $this->assertArrayHasKey('unit_of_depth', $data['garden']);
@@ -214,4 +212,36 @@ class GardenCalculatorTest extends TestCase
         $this->assertSame($numberOfBags, $gardenObject->number_of_bags);
         $this->assertSame($costOfBags, $gardenObject->cost);
     }
+
+	public function test_return_no_of_bags_and_cost_only_when_add_to_basket_is_false()
+	{
+		$measurementUnit = $this->units[array_rand($this->units)];
+		$depthUnit = $this->units[array_rand($this->units)];
+
+		$data = [
+			'width' => $this->randomWidth,
+			'length' => $this->randomLength,
+			'depth' => $this->randomDepth,
+			'unitForDimensions' => $measurementUnit,
+			'unitForDepth' => $depthUnit,
+			'addToBasket' => 'false'
+		];
+		$headers = [
+			'Accept' => 'application/json'
+		];
+
+		$response = $this->client->request('POST', 'calculate', [
+			'form_params' => $data,
+			'headers' => $headers
+		]);
+
+		$this->assertEquals(200, $response->getStatusCode());
+		$data = json_decode($response->getBody(), true);
+
+		$this->assertArrayNotHasKey('width', $data['garden']);
+		$this->assertArrayNotHasKey('length', $data['garden']);
+		$this->assertArrayNotHasKey('depth', $data['garden']);
+		$this->assertArrayHasKey('number_of_bags', $data['garden']);
+		$this->assertArrayHasKey('cost', $data['garden']);
+	}
 }

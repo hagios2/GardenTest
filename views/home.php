@@ -180,7 +180,6 @@
 					data_type: 'json',
 				}).done((response) => {
 					if (response.message === 'success') {
-						console.log('i got herere')
 						if (addToBasket) {
 							gardens.unshift(response.garden)
 							$('#length').val('')
@@ -192,7 +191,6 @@
 							$('#err').hide()
 							displayGardens()
 						} else {
-							console.log('inside the logger ')
 							let dom = `<h3>Number of Bags= ${response.garden.number_of_bags}</h3>
 									<h3>Cost of Bags= £ ${response.garden.cost}</h3>`
 
