@@ -79,34 +79,15 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script>
 	$(document).ready(() => {
+		let gardens = []
 		$.ajax({
 			url: '/gardens'
 		}).done((data) => {
 			console.log(data)
 			if(!jQuery.isEmptyObject(data)) {
-				let dom =``
-				let totalCost = 0
-				$.each(data.gardens, function (i, garden) {
-					dom += `<tr>
-						<td>${garden.width} (${garden.unit_of_dimensions})</td>
-						<td>${garden.length} (${garden.unit_of_dimensions})</td>
-						<td>${garden.depth} (${garden.unit_of_depth})</td>
-						<td>${garden.number_of_bags}</td>
-						<td>${garden.cost}</td>
-					</tr>`
+				gardens = data.gardens;
 
-					totalCost += Number(garden.cost)
-				})
-
-				dom += `<tr>
-							<td>Total Cost:</td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td>${totalCost}</td>
-						</tr>`
-
-				$('#tbody').html(dom)
+				displayGardens()
 			}
 		})
 
@@ -114,6 +95,32 @@
 			e.preventDefault()
 			submitForm()
 		})
+
+		const displayGardens = () => {
+			let dom =``
+			let totalCost = 0
+			$.each(gardens, function (i, garden) {
+				dom += `<tr>
+						<td>${garden.width} (${garden.unit_of_dimensions})</td>
+						<td>${garden.length} (${garden.unit_of_dimensions})</td>
+						<td>${garden.depth} (${garden.unit_of_depth})</td>
+						<td>${garden.number_of_bags}</td>
+						<td>${garden.cost}</td>
+					</tr>`
+
+				totalCost += Number(garden.cost)
+			})
+
+			dom += `<tr>
+							<td>Total Cost:</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td>${totalCost}</td>
+						</tr>`
+
+			$('#tbody').html(dom)
+		}
 
 		const submitForm = () => {
 			const length = $('#length').val()
@@ -130,22 +137,18 @@
 				unitForDepth
 			}
 
-			const headers = {'Content-Type': 'application/json', Accept: 'application/json'}
-
 			$.ajax({
-				url: '/caculate',
+				url: '/calculate',
 				method: 'POST',
 				data,
-				headers
+				data_type: 'json',
 			}).done((response) => {
-				let dom =`<tr>
-						<td>${response.garden.unit_of_dimensions}</td>
-						<td>${response.garden.unit_of_dimensions}</td>
-						<td>${response.garden.unit_of_depth}</td>
-						<td>${response.garden.number_of_bags}</td>
-						<td>${response.garden.cost}</td>
-					</tr>`
-				$('#tbody').prepend(dom)
+				if (response.message === 'success') {
+					console.log(response)
+					gardens.unshift(response.garden)
+
+					displayGardens()
+				}
 			})
 		}
 	})

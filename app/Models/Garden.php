@@ -136,7 +136,7 @@ class Garden
 		$this->numberOfBags = $numberOfBags;
 	}
 
-	public function save(): Garden
+	public function save(): array
 	{
 		$data = [
 			'length' => $this->length,
@@ -152,7 +152,9 @@ class Garden
 
 		$this->setId($id);
 
-		return $this;
+		$data['id'] = $id;
+
+		return $data;
 	}
 
 	public function fetchAll()

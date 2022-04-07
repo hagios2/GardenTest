@@ -98,13 +98,15 @@ class GardenCalculator
 
 		$this->calculateNumberOfBags($measurement);
 
-		$this->save();
+		$garden = $this->save();
 
-		header ('Location: /');
+		header('Content-Type:application/json');
+
+		echo json_encode(['message' => 'success', 'garden' => $garden]);
 	}
 
-	public function save()
+	public function save(): array
 	{
-		$this->garden->save();
+		return $this->garden->save();
 	}
 }
