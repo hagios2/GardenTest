@@ -13,16 +13,37 @@ class QueryBuilder
 		$this->pdo = $pdo;
 	}
 
-	public function select()
+	public function selectAll()
 	{
 		try {
 			$sql = "SELECT * FROM gardens ORDER BY id DESC";
+
+			$this->pdo->setAttribute(PDO::ATTR_STRINGIFY_FETCHES, false);
 
 			$statement = $this->pdo->prepare($sql);
 
 			$statement->execute();
 
 			return $statement->fetchAll(PDO::FETCH_CLASS);
+
+		} catch (\Exception $e) {
+			die($e->getMessage());
+		}
+	}
+
+	public function selectOne()
+	{
+
+		try {
+			$sql = "SELECT * FROM gardens ORDER BY id DESC LIMIT 1";
+
+			$statement = $this->pdo->prepare($sql);
+
+			$statement->execute();
+
+			$this->pdo->setAttribute(PDO::ATTR_STRINGIFY_FETCHES, true);
+
+			return $statement->fetchAll(PDO::FETCH_CLASS)[0];
 
 		} catch (\Exception $e) {
 			die($e->getMessage());

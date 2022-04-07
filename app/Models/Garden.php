@@ -162,7 +162,12 @@ class Garden
 
 	public function fetchAll()
 	{
-		return $this->queryBuilder->select();
+		return $this->queryBuilder->selectAll();
+	}
+
+	public function fetchLatest()
+	{
+		return $this->queryBuilder->selectOne();
 	}
 
 	/**

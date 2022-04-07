@@ -90,32 +90,42 @@ class GardenCalculator
 
 	public function calculate()
 	{
-		$inputs = Request::input();
+		try {
+			$inputs = Request::input();
 
-		$this->setMeasurementUnit($inputs['unitForDimensions']);
+			$this->setMeasurementUnit($inputs['unitForDimensions']);
 
-		$this->setDepthMeasurementUnit($inputs['unitForDepth']);
+			$this->setDepthMeasurementUnit($inputs['unitForDepth']);
 
-		$this->setDimensions(
-			$inputs['width'],
-			$inputs['length'],
-			$inputs['depth']
-		);
+			$this->setDimensions(
+				$inputs['width'],
+				$inputs['length'],
+				$inputs['depth']
+			);
 
-		$measurement = $this->measurementStrategy(
-			$inputs['unitForDimensions']
-		);
+			$measurement = $this->measurementStrategy(
+				$inputs['unitForDimensions']
+			);
 
-		$this->calculateNumberOfBags($measurement);
+			$this->calculateNumberOfBags($measurement);
 
-		$garden = $this->save();
+			$garden = $this->save();
 
-		header('Content-Type:application/json');
+			header('Content-Type:application/json');
 
-		echo json_encode([
-			'message' => 'success',
-			'garden' => $garden
-		]);
+			echo json_encode([
+				'message' => 'success',
+				'garden' => $garden
+			]);
+
+		} catch (\Exception $e) {
+			header('Content-Type:application/json');
+
+			echo json_encode([
+				'message' => 'error',
+				'error' => 'Something went wrong'
+			]);
+		}
 	}
 
 	public function save(): array
